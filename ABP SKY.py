@@ -2,7 +2,7 @@ def mostrar_menu_principal():
     """Muestra el menú principal del sistema."""
     menu = """
 Bienvenidos a SkyRoute - Sistema de Gestión de Pasajes
---------------------------------------------------
+
 1. Gestionar Clientes
 2. Gestionar Destinos
 3. Gestionar Ventas
@@ -11,7 +11,7 @@ Bienvenidos a SkyRoute - Sistema de Gestión de Pasajes
 6. Ver Reporte General
 7. Acerca del Sistema
 8. Salir
---------------------------------------------------
+
 """
     print(menu)
 
@@ -39,23 +39,7 @@ def mostrar_submenu_destinos():
 5. Volver al Menú Principal
 -----------------------------------
 """
-    print(submenu)
-    
-def agregar_cliente():
-    print("""Nuevo cliente
-    Nombre o Razon social: 
-    Cuit: 
-    Correo:
-    """)
-
-def modificar_cliente():
-    print(">>> Eliga el cuit del cliente a modificar: ")
-
-def eliminar_cliente():
-    print(">>> Eliga el cuit del cliente a eliminar: ")
-
-def ver_clientes():
-    print(">>> Eliga el cuit del cliente que desea ver: ")
+from clientes import agregar_cliente, modificar_cliente, eliminar_cliente, ver_clientes
 
 def agregar_destino():
     print("""Nuevo Destino:
