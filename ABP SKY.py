@@ -39,41 +39,39 @@ def mostrar_submenu_destinos():
 5. Volver al Menú Principal
 -----------------------------------
 """
-from clientes import agregar_cliente, modificar_cliente, eliminar_cliente, ver_clientes
-
-def agregar_destino():
-    print("""Nuevo Destino:
-    Ciudad:
-    Pais:
-    Costo base del viaje: 
-    """)
-
-def modificar_destino():
-    print(">>> Función: Modificando un destino existente...")
-
-def eliminar_destino():
-    print(">>> Función: Eliminando un destino...")
-
-def ver_destinos():
-    print(">>> Función: Mostrando la lista de destinos...")
-
-def gestionar_ventas():
-    print(">>> Ingrese su numero de venta: ")
-    print (" Su venta se encuentra: (Activa/Desactiva)")
-
-def consultar_ventas():
-    print("Ingrese numero de venta:")
-    print("La venta pertenece al cuit: (numero de cuil) y es al destino (destino)")
+    print (submenu)
+from clientes import agregar_cliente, modificar_cliente, eliminar_cliente, ver_clientes, clientes
+from destinos import agregar_destino, modificar_destino, eliminar_destino, ver_destinos, destinos
+from ventas import crear_venta, consultar_ventas, ventas
 
 def boton_arrepentimiento():
-    print("Usted posee la posibilidad de reembolsar su viaje, tiene 60 dias habiles para realizarlo.")
-
+    print("Usted posee la posibilidad de reembolsar su viaje, tiene 60 días hábiles para realizarlo.")  
+    if not ventas:
+        print("❌ No hay ventas registradas.")
+        return
+    print("Las ventas realizadas son:")
+    for venta in ventas:
+        print(f"ID: {venta['ID']} | Cliente: {venta['Nombre']} {venta['Apellido']} (DNI: {venta['Cliente_DNI']}) | Destino: {venta['Destino']}")
+        id_a_borrar = int(input("Ingrese el ID de la venta que desea anular (o 0 para cancelar): "))
+    if id_a_borrar == 0:
+        print("❎ Operación cancelada.")
+        return
+    for venta in ventas:
+        if venta['ID'] == id_a_borrar:
+            confirmacion = input(f"¿Está seguro de anular la venta de {venta['Nombre']} a {venta['Destino']}? (s/n): ").strip().lower()
+            if confirmacion == 's':
+                ventas.remove(venta)
+                print("✅ Venta anulada con éxito.")
+            else:
+                print("❎ Anulación cancelada.")
+            return
+    print("❌ No se encontró una venta con ese ID.")
 def ver_reporte_general():
     print(">>> Función: Generando reporte general...")
 
 def acerca_del_sistema():
     print(">>> Información: SkyRoute v1.0 - Sistema de Gestión de Pasajes.")
-    print(">>> Desarrollado por [Tu Nombre/Equipo].")
+    print(">>> Desarrollado por Buen Codigo.")
     print(">>> ¡Gracias por usar nuestro sistema!")
 
 def Gestiones():
@@ -117,7 +115,7 @@ def Gestiones():
                 else:
                     print("Opción inválida. Por favor, intente de nuevo.")
         elif opcion_principal == '3':
-            gestionar_ventas()
+            crear_venta(clientes, destinos)
         elif opcion_principal == '4':
             consultar_ventas()
         elif opcion_principal == '5':
