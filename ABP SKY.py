@@ -1,3 +1,8 @@
+from clientes import agregar_cliente, modificar_cliente, eliminar_cliente, ver_clientes, clientes
+from destinos import agregar_destino, modificar_destino, eliminar_destino, ver_destinos, destinos
+from ventas import crear_venta, consultar_ventas, boton_arrepentimiento
+
+
 def mostrar_menu_principal():
     """Muestra el menú principal del sistema."""
     menu = """
@@ -6,11 +11,8 @@ Bienvenidos a SkyRoute - Sistema de Gestión de Pasajes
 1. Gestionar Clientes
 2. Gestionar Destinos
 3. Gestionar Ventas
-4. Consultar Ventas
-5. Botón de Arrepentimiento
-6. Ver Reporte General
-7. Acerca del Sistema
-8. Salir
+4. Botón de Arrepentimiento
+5. Salir
 
 """
     print(menu)
@@ -40,39 +42,17 @@ def mostrar_submenu_destinos():
 -----------------------------------
 """
     print (submenu)
-from clientes import agregar_cliente, modificar_cliente, eliminar_cliente, ver_clientes, clientes
-from destinos import agregar_destino, modificar_destino, eliminar_destino, ver_destinos, destinos
-from ventas import crear_venta, consultar_ventas, ventas
 
-def boton_arrepentimiento():
-    print("Usted posee la posibilidad de reembolsar su viaje, tiene 60 días hábiles para realizarlo.")  
-    if not ventas:
-        print("❌ No hay ventas registradas.")
-        return
-    print("Las ventas realizadas son:")
-    for venta in ventas:
-        print(f"ID: {venta['ID']} | Cliente: {venta['Nombre']} {venta['Apellido']} (DNI: {venta['Cliente_DNI']}) | Destino: {venta['Destino']}")
-        id_a_borrar = int(input("Ingrese el ID de la venta que desea anular (o 0 para cancelar): "))
-    if id_a_borrar == 0:
-        print("❎ Operación cancelada.")
-        return
-    for venta in ventas:
-        if venta['ID'] == id_a_borrar:
-            confirmacion = input(f"¿Está seguro de anular la venta de {venta['Nombre']} a {venta['Destino']}? (s/n): ").strip().lower()
-            if confirmacion == 's':
-                ventas.remove(venta)
-                print("✅ Venta anulada con éxito.")
-            else:
-                print("❎ Anulación cancelada.")
-            return
-    print("❌ No se encontró una venta con ese ID.")
-def ver_reporte_general():
-    print(">>> Función: Generando reporte general...")
-
-def acerca_del_sistema():
-    print(">>> Información: SkyRoute v1.0 - Sistema de Gestión de Pasajes.")
-    print(">>> Desarrollado por Buen Codigo.")
-    print(">>> ¡Gracias por usar nuestro sistema!")
+def mostrar_submenu_ventas():
+    """Gestión de ventas."""
+    submenu = """
+--- Gestionar ventas ---
+1. Registrar venta
+2. Consultar Venta
+3. Volver al Menú Principal
+-----------------------------------
+"""
+    print (submenu)
 
 def Gestiones():
     while True:
@@ -115,22 +95,27 @@ def Gestiones():
                 else:
                     print("Opción inválida. Por favor, intente de nuevo.")
         elif opcion_principal == '3':
-            crear_venta(clientes, destinos)
+            while True:
+                mostrar_submenu_ventas()
+                opcion_ventas = input("Ingrese una opcion del submenu de ventas: ")
+                if opcion_ventas == '1':
+                    crear_venta(clientes, destinos)
+                elif opcion_ventas == '2':
+                    consultar_ventas()
+                elif opcion_ventas == '3':
+                    print("Volviendo al menú principal...")
+                    break 
+                else:
+                    print("Opción inválida. Por favor, intente de nuevo.")
         elif opcion_principal == '4':
-            consultar_ventas()
-        elif opcion_principal == '5':
             boton_arrepentimiento()
-        elif opcion_principal == '6':
-            ver_reporte_general()
-        elif opcion_principal == '7':
-            acerca_del_sistema()
-        elif opcion_principal == '8':
+        elif opcion_principal == '5':
             print("¡Gracias por usar SkyRoute! Saliendo del sistema.")
             break
         else:
             print("Opción inválida. Por favor, intente de nuevo.")
  
-        if opcion_principal != '8': 
+        if opcion_principal != '6': 
             input("\nPresione Enter para continuar")
             print("\n" * 2) 
 Gestiones()
